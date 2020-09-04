@@ -1,9 +1,9 @@
 const router = require ('express').Router();
 const Company = require('../model/company.model');
-const verify = require('../routes/verifytoken')
+const {auth}= require('../routes/verifytoken')
 
-router.get('/info',(req,res)=>
-{
+router.get('/info',auth,(req,res)=>
+{ 
   Company.find()
     .then(info => res.json(info))
     .catch(err => res.status(400).json('Error: ' + err));

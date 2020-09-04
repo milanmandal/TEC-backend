@@ -3,10 +3,10 @@ const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const {registervalidate, loginvalidate} = require('../validation');
 const bcrypt = require('bcryptjs');
-const auth = require('./verifytoken');
+//const auth = require('./verifytoken');
 
 
-var auth_token;
+var token = "";
 
 
 //GET USER TO CHECK IN DATABASE
@@ -70,7 +70,7 @@ router.post('/register', async (req,res)=>
         email:req.body.email,
         password:hashpassword,
         company:req.body.company,
-        token :jwt.sign({token: req.body.password},process.env.SECRET),
+        token :jwt.sign({token: user.company},process.env.SECRET),
 
     });
     try {
@@ -102,38 +102,20 @@ router.post('/login', async (req,res)=>
     }
     else
     {
-        /*const payload = {
-            user: {
-              id: user.id
-            }
-          };
-    
-          jwt.sign(
-            payload,
-            config.get('jwtSecret'),
-            {
-              expiresIn: 360000
-            },
-            (err, token) => {
-              if (err) throw err;
-              res.json({ token });
-            }
-          );*/
-        
-      
-    
-    
-        
         //GETTING WEB-TOKENS
-        const token = jwt.sign({_id: user._id}, process.env.SECRET);
-        res.header('auth-token', token)
+        token = jwt.sign({email: user.email}, process.env.SECRET);
         
-
         res.json(user)
-        
     }
     
 })
+
+
+
+
+
+
+
 
 
 

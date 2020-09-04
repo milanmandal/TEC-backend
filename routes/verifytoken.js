@@ -1,23 +1,35 @@
 const jwt = require('jsonwebtoken');
+//const check = require('./auth');
+const User = require('../model/user')
 
-function auth(req,res,next)
+
+async function auth(req,res,next)
 {
+  
+    console.log(req.body)
+    check = req.headers.Authorization
     
-    const login= req.header('auth-token')
-
-    if(!login){
+    if(!check){
     return (
-        window.location='localhost:3000/',
-        res.status(401).json('Access Denied'));
+        res.status(401).send("token not found")),
+        console.log("Acess denied")
     }
 
     try {
-        const verified = jwt.verify(login,process.env.SECRET);
-        req.user = verified;
+        const verified = jwt.verify(check,process.env.SECRET);
+        const user = await User.findOne({company:verified});
+        if(!user)
+        {
+            res.status(401).json("token not found in data base");
+            com
+        }
+        else{
+            res.status(200).send("access granted");
+        }
         next();
     } catch(err){
-        res.status(400).send('invalid Token');
+        res.status(401).send('invalid Token');
     }
 }
 
-module.exports = auth;
+module.exports.auth = auth;

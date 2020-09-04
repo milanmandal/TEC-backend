@@ -1,6 +1,6 @@
 const router = require ('express').Router();
 const {Finance,Production,Resdev,Sales} = require('../model/Sony.model');
-const {CFinance,CProduction,CResdev,CSales} = require('../model/crisis.Sony');
+const {CFinance,CProduction,CResDev,CSales} = require('../model/crisis.Sony');
 
 //ROUND3 QUESTIONS CALLS
 router.route('/getcrisisfinance').get((req, res) => {
@@ -16,7 +16,7 @@ router.route('/getcrisisproduction').get((req, res) => {
 });
 
 router.route('/getcrisisresdev').get((req, res) => {
-  CResdev.find()
+  CResDev.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });

@@ -51,6 +51,9 @@ app.use('/sony',SonyRoute);
 const TataRoute = require('./routes/Tata');
 app.use('/tata',TataRoute);
 
+const StockRoute = require('./routes/stocks');
+app.use('/stock',StockRoute);
+
 
 
 
