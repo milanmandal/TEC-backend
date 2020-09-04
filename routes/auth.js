@@ -57,7 +57,7 @@ router.post("/register", async (req, res) => {
         email: req.body.email,
         password: hashpassword,
         company: req.body.company,
-        token: jwt.sign({ company: req.body.company }, process.env.SECRET),
+        token: jwt.sign({ company: req.body.company, email:req.body.email }, process.env.SECRET),
     });
     try {
         const savedUser = await user.save();
@@ -77,9 +77,11 @@ router.post("/login", async (req, res) => {
     if (!user || !pass) {
         return res.status(400).send("invalid credentials");
     } else {
+        
         //GETTING WEB-TOKENS
-        token = jwt.sign({ email: user.email }, process.env.SECRET);
-
+        
+        const token = jwt.verify(user.token, process.env.SECRET);
+        console.log(token)
         res.json(user);
     }
 });

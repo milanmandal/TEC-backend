@@ -12,7 +12,7 @@ dotenv.config();
 const port = process.env.PORT || 5000;
 
 //MONGODB CONNECTION
-const uri = "mongodb://localhost:27017/bi-2020-test" || process.env.ATLAS_USER;
+const uri =  process.env.ATLAS_USER;
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -15,16 +15,17 @@ async function auth(req, res, next) {
     try {
         const verified = jwt.verify(check, process.env.SECRET);
         console.log(verified);
-        const user = await User.findOne({ company: verified.company });
+        const user = await User.findOne({ company: verified.company , email:verified.email});
         console.log(user);
         if (!user) {
             return res.status(401).json("token not found in data base");
         }
-        res.status(200).send("access granted");
+        
+        req.company=verified.token
         next();
     } catch (err) {
         res.status(401).send("invalid Token");
     }
 }
 
-module.exports.auth = auth;
+module.exports.auth= auth;
