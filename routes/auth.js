@@ -70,7 +70,7 @@ router.post('/register', async (req,res)=>
         email:req.body.email,
         password:hashpassword,
         company:req.body.company,
-        token :jwt.sign({token: user.company},process.env.SECRET),
+        token :jwt.sign({token: req.body.company},process.env.SECRET),
 
     });
     try {
@@ -104,6 +104,7 @@ router.post('/login', async (req,res)=>
     {
         //GETTING WEB-TOKENS
         token = jwt.sign({email: user.email}, process.env.SECRET);
+        res.header("auth-token",token);
         
         res.json(user)
     }
