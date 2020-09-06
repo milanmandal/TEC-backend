@@ -1,8 +1,9 @@
 var router=require("express").Router();
 var mongoose=require("mongoose");
 var Company=require("../model/Stocks.model");
+const {auth}= require('../routes/verifytoken')
 
-router.get("/companylist",function(req,res){
+router.get("/companylist",auth,function(req,res){
     Company.find()
       .then(companydata => res.json(companydata))
       .catch(err => res.status(400).json('Error: ' + err));

@@ -1,27 +1,28 @@
 const router = require ('express').Router();
 const {Finance,Production,Resdev,Sales} = require('../model/Sony.model');
 const {CFinance,CProduction,CResDev,CSales} = require('../model/crisis.Sony');
+const {auth}= require('../routes/verifytoken')
 
 //ROUND3 QUESTIONS CALLS
-router.route('/getcrisisfinance').get((req, res) => {
+router.route('/getcrisisfinance').get(auth,(req, res) => {
   CFinance.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getcrisisproduction').get((req, res) => {
+router.route('/getcrisisproduction').get(auth,(req, res) => {
   CProduction.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getcrisisresdev').get((req, res) => {
+router.route('/getcrisisresdev').get(auth,(req, res) => {
   CResDev.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getcrisissales').get((req, res) => {
+router.route('/getcrisissales').get(auth,(req, res) => {
   CSales.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -32,25 +33,25 @@ router.route('/getcrisissales').get((req, res) => {
 //ROUND 1 QUESTIONS CALL
 
 
-router.route('/getfinance').get((req, res) => {
+router.route('/getfinance').get(auth,(req, res) => {
   Finance.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getproduction').get((req, res) => {
+router.route('/getproduction').get(auth,(req, res) => {
   Production.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getresdev').get((req, res) => {
+router.route('/getresdev').get(auth,(req, res) => {
   Resdev.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getsales').get((req, res) => {
+router.route('/getsales').get(auth,(req, res) => {
   Sales.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));

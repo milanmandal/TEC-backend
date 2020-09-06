@@ -8,7 +8,7 @@ async function auth(req, res, next) {
 
     if (!check) {
         return (
-            res.status(401).send("token not found"), console.log("Acess denied")
+            res.status(401).send("token not found")
         );
     }
 

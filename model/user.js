@@ -1,17 +1,36 @@
 var mongoose=require("mongoose")
 
 var UserSchema=new mongoose.Schema({
-    email:String,
-    password:String,
+    email:{
+        type:String,
+        require:true,
+    },
+    password:{
+        type:String,
+        require:true,
+    },
     token:String,
     company:{
         type:String,
-        default:null
+        require:true,
     },
     score:{
         type:Number,
         default:0
+    },
+    invest:{
+        type:Number,
+        default:0,
+    },
+    max:{
+        type:Number,
+        default:0,
+    },
+    page:{
+        type:Number,
+        default:1,
     }
+
 })
 
 
