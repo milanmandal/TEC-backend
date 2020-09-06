@@ -30,6 +30,10 @@ router.route("/score/:id").post((req, res) => {
             points.company = req.body.company;
             points.token = req.body.token;
             points.score = req.body.score;
+            points.invest = req.body.invest;
+            points.page = req.body.page;
+            points.max = req.body.max;
+            
 
             points
                 .save()
