@@ -97,7 +97,7 @@ router.route("/question/6/:id").post((req, res) => {
     User.findById(req.params.id)
         .then((question) => {
            
-            question.sq6 = req.body.flag;
+            question.q6 = req.body.flag;
             
             question
                 .save()
