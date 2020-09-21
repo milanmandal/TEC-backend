@@ -354,7 +354,7 @@ router.route("/path/:id").post((req, res) => {
             
             route
                 .save()
-                .then(() => res.json(`user updates - ` + path))
+                .then(() => res.json(`user updates - ` + route))
                 .catch((err) => res.status(400).json("Error: " + err));
         })
         .catch((err) => res.status(400).json("couldnt find: " + err));
