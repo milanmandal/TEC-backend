@@ -36,7 +36,7 @@ var UserSchema=new mongoose.Schema({
     },
     page:{
         type:String,
-        default:'NULL',
+        default:'',
     },
 
         q1:{

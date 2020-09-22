@@ -51,5 +51,8 @@ app.use("/tata", TataRoute);
 const StockRoute = require("./routes/stocks");
 app.use("/stock", StockRoute);
 
+const AdminRoute = require("./routes/admin");
+app.use("/admin", AdminRoute);
+
 //PORT CONNECTION
 app.listen(port, () => console.log(`Server is connected in port ${port}`));
