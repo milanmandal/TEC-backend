@@ -8,6 +8,7 @@ const registervalidate = (data)=>
     const schema =Joi.object( {
         
         email :Joi.string().required().email(),
+        team :Joi.string().required().email(),
         password :Joi.string().required(),
         company:Joi.string().required(),
     });

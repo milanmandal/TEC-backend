@@ -3,7 +3,9 @@ const Company = require('../model/company.model');
 const {auth}= require('../routes/verifytoken')
 
 router.get('/info',auth, (req,res)=>
-{ 
+
+{
+    console.log(req.body) 
     Company.find()
     .then(info => res.json(info))
     .catch(err => res.status(400).json('Error: ' + err));

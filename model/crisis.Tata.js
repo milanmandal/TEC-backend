@@ -197,12 +197,12 @@ const finance=new Schema({
     }
 } */
 
-const Finance=mongoose.model("Tatacrisisfinance",finance);
-const Sales=mongoose.model("Tatacrisissale",sales);
-const ResDev=mongoose.model("TatacrisisResDev",resdev);
-const Production=mongoose.model("TatacrisisProduction",production);
+const CFinance=mongoose.model("Tatacrisisfinance",finance);
+const CSales=mongoose.model("Tatacrisissale",sales);
+const CResDev=mongoose.model("TatacrisisResDev",resdev);
+const CProduction=mongoose.model("TatacrisisProduction",production);
 
-module.exports.Finance = Finance;
-module.exports.Production = Production;
-module.exports.ResDev = ResDev;
-module.exports.Sales = Sales;
+module.exports.CFinance = CFinance;
+module.exports.CProduction = CProduction;
+module.exports.CResDev = CResDev;
+module.exports.CSales = CSales;
