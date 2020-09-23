@@ -22,23 +22,206 @@ router.get("/:id", (req, res) => {
 });
 
 
-// UPDATE VALUES OF SPECIFIC USER
-router.route("/setuser/:id").post((req, res) => {
+// UPDATE (ROUND+PAGE) VALUES OF SPECIFIC USER
+router.route("/setuser/:id").patch((req, res) => {
     User.findById(req.params.id)
         .then((detail) => {
            
-            detail.score1 = req.body.score1;
-            detail.score2 = req.body.score2;
-            detail.score3 = req.body.score3;
-            detail.page = req.body.page;
+            detail.score1 = 0;
+            detail.score2 = 0;
+            detail.score3 = 0;
+            detail.page = "",
+            detail.company1="None",
+            detail.company2="None",
+            detail.invest1=0,
+            detail.invest2=0,
             
             detail
                 .save()
-                .then(() => res.json(`user updates - ` + detail))
+                .then(() => res.json("user updates - " + detail))
                 .catch((err) => res.status(400).json("Error: " + err));
         })
         .catch((err) => res.status(400).json("couldnt find: " + err));
 });
+
+// UPDATE (ROUND+PAGE) VALUES OF ALL USER
+router.route("/setalluser").patch((req, res) => {
+    
+    User.updateMany({},
+        {
+            $set: 
+            {
+                score1: 0, 
+                score2: 0, 
+                score3: 0, 
+                page: "",
+                company1:"None",
+                company2:"None",
+                invest1:0,
+                invest2:0
+            }
+        })
+
+        .then(user => res.json(`user updates - ` + user))
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+});
+
+
+// UPDATE SPECIFIC (ROUND+PAGE) VALUES OF ALL USER
+router.route("/setalluser/:data").patch((req, res) => {
+    var round = req.params.data;
+    if(round=="score1"){
+    User.updateMany({},
+        {
+            score1:0
+        })
+
+        .then(user => res.json(`user updates - ` + user))
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+    }
+    if(round=="score2"){
+        User.updateMany({},
+            {
+                score2:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="score3"){
+        User.updateMany({},
+            {
+                score3:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="company1"){
+    User.updateMany({},
+        {
+            company1:"None"
+        })
+
+        .then(user => res.json(`user updates - ` + user))
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+    }
+    if(round=="company2"){
+        User.updateMany({},
+            {
+                company2:"None"
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="invest1"){
+        User.updateMany({},
+            {
+                invest1:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="invest2"){
+        User.updateMany({},
+            {
+                invest2:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+});
+
+
+
+//UPDATE SPECIFIC (ROUNDS+PAGE) FOR SPECIFIC USER
+/*router.route("/setalluser/:data/:id").patch((req, res) => {
+    var round = req.params.data;
+    if(round=="score1"){
+    User.updateMany({_id=req.params.id},
+        {
+            score1:0
+        })
+
+        .then(user => res.json(`user updates - ` + user))
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+    }
+    if(round=="score2"){
+        User.updateMany({_id=req.params.id},
+            {
+                score2:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="score3"){
+        User.updateMany({_id=req.params.id},
+            {
+                score3:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="company1"){
+    User.updateMany({_id=req.params.id},
+        {
+            company1:"None"
+        })
+
+        .then(user => res.json(`user updates - ` + user))
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+    }
+    if(round=="company2"){
+        User.updateMany({_id=req.params.id},
+            {
+                company2:"None"
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="invest1"){
+        User.updateMany({_id=req.params.id},
+            {
+                invest1:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="invest2"){
+        User.updateMany({_id=req.params.id},
+            {
+                invest2:0
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+})*/
+
+
+//TIMER
+router.route("/question/1/:id").post((req, res) => {
+    User.findById(req.params.id)
+        .then((question) => {
+           
+            question.q1 = req.body.flag;
+            
+            question
+                .save()
+                .then(() => res.json(`user updates - ` + question))
+                .catch((err) => res.status(400).json("Error: " + err));
+        })
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+});
+
+
 
 
 /****************************************************************************/
