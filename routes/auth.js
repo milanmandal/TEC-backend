@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 
 var token = "";
 
-//GET USER TO CHECK IN DATABASE
+//GET DETAILS OF ALL USERS IN DATABASE
 router.route("/users").get((req, res) => {
     User.find()
         .then((user) => res.json(user))
@@ -20,6 +20,26 @@ router.get("/:id", (req, res) => {
         .then((user) => res.json(user))
         .catch((err) => res.status(400).json("Error: " + err));
 });
+
+
+// UPDATE VALUES OF SPECIFIC USER
+router.route("/setuser/:id").post((req, res) => {
+    User.findById(req.params.id)
+        .then((detail) => {
+           
+            detail.score1 = req.body.score1;
+            detail.score2 = req.body.score2;
+            detail.score3 = req.body.score3;
+            detail.page = req.body.page;
+            
+            detail
+                .save()
+                .then(() => res.json(`user updates - ` + detail))
+                .catch((err) => res.status(400).json("Error: " + err));
+        })
+        .catch((err) => res.status(400).json("couldnt find: " + err));
+});
+
 
 /****************************************************************************/
 /****************************************************************************/
