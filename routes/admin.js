@@ -71,6 +71,7 @@ router.route("/settimer/:id").post((req, res) => {
             control.round1 = req.body.round1;
             control.round2 = req.body.round2;
             control.round3 = req.body.round3;
+            control.round = req.body.round;
 
             
             

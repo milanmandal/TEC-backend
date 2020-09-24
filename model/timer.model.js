@@ -13,6 +13,10 @@ const timerschema = new mongoose.Schema({
     round3:{
         type : String,
         default : '2020-09-24 2:00:00',
+    },
+    round:{
+        type : String,
+        default : 'round1',
     }
 });
 
