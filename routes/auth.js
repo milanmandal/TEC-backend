@@ -274,11 +274,13 @@ router.route("/question/user/:id").patch((req, res) => {
 });
 
 
-/*//SORTED USER BY SCORE
-router.route("/question/user/:id").patch((req, res) => {
-    var score = {}
-   // User.find().sort()
-}*/
+//SORTED USER BY SCORE
+router.route("/finalscore").patch((req, res) => {
+    var score = {total : -1}
+    User.find({},{email:1,total:1}).sort(score)
+    .then(user => res.send(user))
+    .catch((err) => res.status(400).json("couldnt find: " + err));
+})
 
 
 //TIMER
@@ -647,8 +649,7 @@ router.post("/register", async (req, res) => {
 
     //check if the email already exists
     const emailExists = await User.findOne({ email: req.body.email });
-    const teamExists = await User.findOne({ team: req.body.team });
-    if (emailExists || teamExists) return res.status(400).send("Email or team-email already exists");
+    if (emailExists) return res.status(400).send("Email or team-email already exists");
 
     //HASH_PASSWORDS
 
@@ -657,7 +658,6 @@ router.post("/register", async (req, res) => {
 
     const user = new User({
         email: req.body.email,
-        team: req.body.team,
         password: hashpassword,
         company: req.body.company,
         token: jwt.sign({ company: req.body.company, email:req.body.email }, process.env.SECRET),
@@ -676,7 +676,7 @@ router.post("/login", async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
 
     const user = await User.findOne({ email: req.body.email });
-    const team = await User.findOne({ team: req.body.email });
+   
     
     if (user) {
         
@@ -691,34 +691,9 @@ router.post("/login", async (req, res) => {
             return res.status(400).send("invalid credentials");
         }
     
-    } 
-    else {
-        if (team) {
-        
-            const teampass = await bcrypt.compare(req.body.password, team.password);
-            if(teampass)
-            {
-                const token = jwt.verify(team.token, process.env.SECRET);
-                console.log("TEAM-MEMBER")
-                const member={
-                    value:1,
-                    company:team.company,
-                    token:team.token,
-                    id:team._id,
-                    page:team.page,
-                }
-                console.log(member);
-                res.json(member);
-            }
-            else{
-                return res.status(400).send("invalid credentials");
-            }
-        
-        } 
-        else{
-            return res.status(400).send("invalid credentials");
-        }
-        
+    
+   
+       
        
     }
 });

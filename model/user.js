@@ -5,10 +5,6 @@ var UserSchema=new mongoose.Schema({
         type:String,
         require:true,
     },
-    team:{
-        type:String,
-        require:true,
-    },
     password:{
         type:String,
         require:true,
@@ -29,6 +25,10 @@ var UserSchema=new mongoose.Schema({
     score3:{
         type:Number,
         default:0
+    },
+    total:{
+        type:Number,
+        default:0,
     },
     max:{
         type:Number,
