@@ -629,7 +629,7 @@ router.route("/score3/:id").post((req, res) => {
 //POST USER TOTAL
 /************************************************************************/
 /************************************************************************/
-router.route("/score3/:id").post((req, res) => {
+router.route("/total/:id").post((req, res) => {
     User.findById(req.params.id)
         .then((points) => {
            
