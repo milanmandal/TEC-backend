@@ -3,27 +3,89 @@ const {Finance,Production,Resdev,Sales} = require('../model/Reliance.model');
 const {CFinance,CProduction,CResDev,CSales} = require('../model/crisis.Reliance');
 const {auth}= require('../routes/verifytoken')
 
+//ROUND 1 ANSWERS
+router.route('/answer/finance/:id').post(auth,(req,res)=>{
+  Finance.find(req.params.id)
+         .then(answer =>{
+           if(req.body.ans == answer.answer)
+           {
+              const value = {
+                answer : 1,
+              }
+              res.json(value);
+           }
+           })
+           .catch(err => res.status(400).json('Error: ' + err));
+  });
+
+
+  router.route('/answer/production/:id').post(auth,(req,res)=>{
+    Production.find(req.params.id)
+           .then(answer =>{
+             if(req.body.ans == answer.answer)
+             {
+                const value = {
+                  answer : 1,
+                }
+                res.json(value);
+             }
+             })
+             .catch(err => res.status(400).json('Error: ' + err));
+    });
+
+
+    router.route('/answer/resdev/:id').post(auth,(req,res)=>{
+      Resdev.find(req.params.id)
+             .then(answer =>{
+               if(req.body.ans == answer.answer)
+               {
+                  const value = {
+                    answer : 1,
+                  }
+                  res.json(value);
+               }
+               })
+               .catch(err => res.status(400).json('Error: ' + err));
+      });
+
+
+      router.route('/answer/sales/:id').post(auth,(req,res)=>{
+        Sales.find(req.params.id)
+               .then(answer =>{
+                 if(req.body.ans == answer.answer)
+                 {
+                    const value = {
+                      answer : 1,
+                    }
+                    res.json(value);
+                 }
+                 })
+                 .catch(err => res.status(400).json('Error: ' + err));
+        })
+
+
+
 //ROUND3 QUESTIONS CALLS
 router.route('/getcrisisfinance').get(auth,(req, res) => {
-  CFinance.find()
+  CFinance.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getcrisisproduction').get(auth,(req, res) => {
-  CProduction.find()
+  CProduction.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getcrisisresdev').get(auth,(req, res) => {
-  CResDev.find()
+  CResDev.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getcrisissales').get(auth,(req, res) => {
-  CSales.find()
+  CSales.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -34,27 +96,27 @@ router.route('/getcrisissales').get(auth,(req, res) => {
 
 
 router.route('/getfinance').get(auth,(req, res) => {
-  Finance.find()
+  Finance.find({},{answer:0})
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getproduction').get(auth,(req, res) => {
-  Production.find()
-    .then(questions => res.json(questions))
-    .catch(err => res.status(400).json('Error: ' + err));
+  Production.find({},{question:1,option1:1,option2:1,option3:1,option4:1})
+  .then(questions => res.json(questions))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getresdev').get(auth,(req, res) => {
-  Resdev.find()
-    .then(questions => res.json(questions))
-    .catch(err => res.status(400).json('Error: ' + err));
+  Resdev.find({},{answer:0})
+  .then(questions => res.json(questions))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getsales').get(auth,(req, res) => {
-  Sales.find()
-    .then(questions => res.json(questions))
-    .catch(err => res.status(400).json('Error: ' + err));
+  Sales.find({},{answer:0})
+  .then(questions => res.json(questions))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
