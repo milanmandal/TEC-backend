@@ -313,7 +313,7 @@ router.route("/question/1/:id").post((req, res) => {
         .then((question) => {
            
             question.q1 = req.body.flag;
-            
+        
             question
                 .save()
                 .then(() => res.json(`user updates - ` + question))
@@ -707,7 +707,7 @@ router.post("/login", async (req, res) => {
         if(userpass)
         {
             const token = jwt.verify(user.token, process.env.SECRET);
-            console.log(token,".....MASTER-USER")
+            console.log(token.company,token.email,".....MASTER-USER")
             res.json(user);
         }
         else{

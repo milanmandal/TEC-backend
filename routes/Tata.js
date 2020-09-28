@@ -3,99 +3,27 @@ const {Finance,Production,Resdev,Sales} = require('../model/Tata.model');
 const {CFinance,CProduction,CResDev,CSales} = require('../model/crisis.Tata');
 const {auth}= require('../routes/verifytoken')
 
-//ROUND 1 ANSWERS
-router.route('/answer/finance/:id/:userid').post((req,res)=>{
-  Finance.findById(req.params.id)
-         .then((answer) =>{console.log(req.body.answer,answer)
-           if(req.body.answer == answer.answer)
-           {
-               User.findById(req.params.userid)
-                    .then((score)=>{
-                      console.log("second");
-                      const prev = score.score1;
-                      score.score1 = prev+1000;
-
-                      score.save();
-                    })
-           }
-           })
-           .catch(err => res.status(400).json('Error: ' + err));
-  });
-  router.route('/answer/production/:id/:userid').post((req,res)=>{
-    Production.findById(req.params.id)
-           .then((answer) =>{console.log(req.body.answer,answer)
-             if(req.body.answer == answer.answer)
-             {
-                 User.findById(req.params.userid)
-                      .then((score)=>{
-                        console.log("second");
-                        const prev = score.score1;
-                        score.score1 = prev+1000;
-  
-                        score.save();
-                      })
-             }
-             })
-             .catch(err => res.status(400).json('Error: ' + err));
-    });
-    router.route('/answer/resdev/:id/:userid').post((req,res)=>{
-      Resdev.findById(req.params.id)
-             .then((answer) =>{console.log(req.body.answer,answer)
-               if(req.body.answer == answer.answer)
-               {
-                   User.findById(req.params.userid)
-                        .then((score)=>{
-                          console.log("second");
-                          const prev = score.score1;
-                          score.score1 = prev+1000;
-    
-                          score.save();
-                        })
-               }
-               })
-               .catch(err => res.status(400).json('Error: ' + err));
-      });
-    router.route('/answer/sales/:id/:userid').post((req,res)=>{
-      Sales.findById(req.params.id)
-            .then((answer) =>{console.log(req.body.answer,answer)
-              if(req.body.answer == answer.answer)
-              {
-                  User.findById(req.params.userid)
-                        .then((score)=>{
-                          console.log("second");
-                          const prev = score.score1;
-                          score.score1 = prev+1000;
-
-                          score.save();
-                        })
-              }
-              })
-              .catch(err => res.status(400).json('Error: ' + err));
-      });
-
-
-
 //ROUND3 QUESTIONS CALLS
 router.route('/getcrisisfinance').get(auth,(req, res) => {
-  CFinance.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
+  CFinance.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getcrisisproduction').get(auth,(req, res) => {
-  CProduction.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
+  CProduction.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getcrisisresdev').get(auth,(req, res) => {
-  CResDev.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
+  CResDev.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getcrisissales').get(auth,(req, res) => {
-  CSales.find({}, {rank1:0,rank2:0,rank3:0,rank4:0})
+  CSales.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -106,27 +34,27 @@ router.route('/getcrisissales').get(auth,(req, res) => {
 
 
 router.route('/getfinance').get(auth,(req, res) => {
-  Finance.find({},{answer:0})
+  Finance.find()
     .then(questions => res.json(questions))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getproduction').get(auth,(req, res) => {
-  Production.find({},{question:1,option1:1,option2:1,option3:1,option4:1})
-  .then(questions => res.json(questions))
-  .catch(err => res.status(400).json('Error: ' + err));
+  Production.find()
+    .then(questions => res.json(questions))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getresdev').get(auth,(req, res) => {
-  Resdev.find({},{answer:0})
-  .then(questions => res.json(questions))
-  .catch(err => res.status(400).json('Error: ' + err));
+  Resdev.find()
+    .then(questions => res.json(questions))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/getsales').get(auth,(req, res) => {
-  Sales.find({},{answer:0})
-  .then(questions => res.json(questions))
-  .catch(err => res.status(400).json('Error: ' + err));
+  Sales.find()
+    .then(questions => res.json(questions))
+    .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
