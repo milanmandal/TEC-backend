@@ -7,8 +7,8 @@ const User = require('../model/user')
 
 
 //ROUND 1 ANSWERS
-router.route('/answer/production/:id/:userid').post((req,res)=>{
-  Production.findById(req.params.id)
+router.route('/answer/finance/:id/:userid').post((req,res)=>{
+  Finance.findById(req.params.id)
          .then((answer) =>{console.log(req.body.answer,answer)
            if(req.body.answer == answer.answer)
            {
@@ -17,60 +17,70 @@ router.route('/answer/production/:id/:userid').post((req,res)=>{
                       console.log("second");
                       const prev = score.score1;
                       score.score1 = prev+1000;
-                    })
 
-                   score
-                   .then(() => res.json(`user updates - ` + score))
-                   .catch((err) => res.status(400).json("Error: " + err));
+                      score.save();
+                    })
            }
            })
            .catch(err => res.status(400).json('Error: ' + err));
   });
-
-
-  router.route('/answer/production/:id').post((req,res)=>{
+  router.route('/answer/production/:id/:userid').post((req,res)=>{
     Production.findById(req.params.id)
-           .then(answer =>{
-             if(req.body.ans == answer.answer)
+           .then((answer) =>{console.log(req.body.answer,answer)
+             if(req.body.answer == answer.answer)
              {
-                const value = {
-                  answer : 1,
-                }
-                res.json(value);
+                 User.findById(req.params.userid)
+                      .then((score)=>{
+                        console.log("second");
+                        const prev = score.score1;
+                        score.score1 = prev+1000;
+  
+                        score.save();
+                      })
              }
              })
              .catch(err => res.status(400).json('Error: ' + err));
     });
-
-
-    router.route('/answer/resdev/:id').post((req,res)=>{
+    router.route('/answer/resdev/:id/:userid').post((req,res)=>{
       Resdev.findById(req.params.id)
-             .then(answer =>{
-               if(req.body.ans == answer.answer)
+             .then((answer) =>{console.log(req.body.answer,answer)
+               if(req.body.answer == answer.answer)
                {
-                  const value = {
-                    answer : 1,
-                  }
-                  res.json(value);
+                   User.findById(req.params.userid)
+                        .then((score)=>{
+                          console.log("second");
+                          const prev = score.score1;
+                          score.score1 = prev+1000;
+    
+                          score.save();
+                        })
                }
                })
                .catch(err => res.status(400).json('Error: ' + err));
       });
+    router.route('/answer/sales/:id/:userid').post((req,res)=>{
+      Sales.findById(req.params.id)
+            .then((answer) =>{console.log(req.body.answer,answer)
+              if(req.body.answer == answer.answer)
+              {
+                  User.findById(req.params.userid)
+                        .then((score)=>{
+                          console.log("second");
+                          const prev = score.score1;
+                          score.score1 = prev+1000;
+
+                          score.save();
+                        })
+              }
+              })
+              .catch(err => res.status(400).json('Error: ' + err));
+      });
 
 
-      router.route('/answer/sales/:id').post((req,res)=>{
-        Sales.findById(req.params.id)
-               .then(answer =>{
-                 if(req.body.ans == answer.answer)
-                 {
-                    const value = {
-                      answer : 1,
-                    }
-                    res.json(value);
-                 }
-                 })
-                 .catch(err => res.status(400).json('Error: ' + err));
-        })
+  
+
+
+    
 
 
 
