@@ -6,6 +6,11 @@ const dotenv = require("dotenv");
 const cookieparser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const User = require("./model/user");
+const rateLimit = require("express-rate-limit");
+const hpp = require('hpp');
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const mongoSanitize = require('express-mongo-sanitize');
 
 //ENV-CONFIGURATION
 dotenv.config();
@@ -24,10 +29,31 @@ connection.once("open", () => {
     console.log("MongoDB database connection established successfully");
 });
 
+
+//API REQUEST LIMITER
+const limiter = rateLimit({
+    windowMs: 1000, // 10 secs
+    max: 5,         // 5 requests
+})
+
+
+
 //MIDDLEWARE
 app.use(express.json());
+app.use(bodyParser.urlencoded());
 app.use(cors());
 app.use(cookieparser());
+app.use(limiter);           // api limiter 5 per sec
+app.use(hpp());             // prevent http interference
+app.use(helmet());          // route protection
+app.use(xss());             // cross scripting
+app.use(mongoSanitize());   //prevent nosql interference
+
+
+
+
+
+
 
 //ROUTES
 const authRoute = require("./routes/auth");

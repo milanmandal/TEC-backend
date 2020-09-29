@@ -9,7 +9,8 @@ var token = "";
 
 //GET DETAILS OF ALL USERS IN DATABASE
 router.route("/users").get((req, res) => {
-    User.find()
+    var sort = {email:1}
+    User.find().sort(sort)
         .then((user) => res.json(user))
         .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -19,9 +20,17 @@ router.get("/:id", (req, res) => {
     User.findById(req.params.id)
         .then((user) => res.json(user))
         .catch((err) => res.status(400).json("Error: " + err));
+
 });
 
 
+
+
+
+
+//**************************************************************************************************************************** *
+///*******************                    ADMIN CONTROLS  **********************************************************************/
+/***************************************************************************************************************************** */
 // UPDATE (ROUND+PAGE) VALUES OF SPECIFIC USER
 router.route("/setuser/:id").patch((req, res) => {
     User.findById(req.params.id)
@@ -35,6 +44,7 @@ router.route("/setuser/:id").patch((req, res) => {
             detail.company2="None",
             detail.invest1=0,
             detail.invest2=0,
+            detail.total=0,
             
             detail
                 .save()
@@ -58,7 +68,8 @@ router.route("/setalluser").patch((req, res) => {
                 company1:"None",
                 company2:"None",
                 invest1:0,
-                invest2:0
+                invest2:0,
+                total:0
             }
         })
 
@@ -137,6 +148,15 @@ router.route("/setalluser/:data").patch((req, res) => {
         User.updateMany({},
             {
                 page:""
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
+    if(round=="total"){
+        User.updateMany({},
+            {
+                total:""
             })
     
             .then(user => res.json(`user updates - ` + user))
@@ -221,6 +241,15 @@ router.route("/setuser/:data/:id").patch((req, res) => {
             .then(user => res.json(`user updates - ` + user))
             .catch((err) => res.status(400).json("couldnt find: " + err));
         }
+    if(round=="total"){
+        User.updateMany({_id:req.params.id},
+            {
+                total:""
+            })
+    
+            .then(user => res.json(`user updates - ` + user))
+            .catch((err) => res.status(400).json("couldnt find: " + err));
+        }
 })
 
 
@@ -274,14 +303,6 @@ router.route("/question/user/:id").patch((req, res) => {
 });
 
 
-//SORTED USER BY SCORE
-router.route("/finalscore").patch((req, res) => {
-    var score = {total : -1}
-    User.find({},{email:1,total:1}).sort(score)
-    .then(user => res.send(user))
-    .catch((err) => res.status(400).json("couldnt find: " + err));
-})
-
 
 //TIMER
 router.route("/question/1/:id").post((req, res) => {
@@ -298,6 +319,34 @@ router.route("/question/1/:id").post((req, res) => {
         .catch((err) => res.status(400).json("couldnt find: " + err));
 });
 
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+/**************************************************************************************** */
+/**************         SCORE SORTER BY TOTAL SCORE           *************************** */
+/**************************************************************************************** */
+
+//SORTED USER BY SCORE
+router.route("/finalscore").patch((req, res) => {
+    var score = {total : -1}
+    User.find({},{email:1,total:1}).sort(score)
+    .then(user => res.send(user))
+    .catch((err) => res.status(400).json("couldnt find: " + err));
+})
+
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
@@ -313,7 +362,7 @@ router.route("/question/1/:id").post((req, res) => {
         .then((question) => {
            
             question.q1 = req.body.flag;
-            
+        
             question
                 .save()
                 .then(() => res.json(`user updates - ` + question))
@@ -707,7 +756,7 @@ router.post("/login", async (req, res) => {
         if(userpass)
         {
             const token = jwt.verify(user.token, process.env.SECRET);
-            console.log(token,".....MASTER-USER")
+            console.log(token.company,token.email,".....MASTER-USER")
             res.json(user);
         }
         else{

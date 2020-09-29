@@ -3,6 +3,12 @@ const {Finance,Production,Resdev,Sales} = require('../model/LnT.model');
 const {CFinance,CProduction,CResDev,CSales} = require('../model/crisis.lnt');
 const {auth}= require('../routes/verifytoken')
 
+
+
+
+
+
+
 //ROUND3 QUESTIONS CALLS
 router.route('/getcrisisfinance').get(auth,(req, res) => {
   CFinance.find()
@@ -159,3 +165,5 @@ router.route('/addsales').post((req, res) => {
 
 module.exports = router;
 
+
+module.exports = router;
