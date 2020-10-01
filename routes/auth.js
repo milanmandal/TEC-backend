@@ -328,13 +328,30 @@ router.route("/question/1/:id").post((req, res) => {
 
 
 /**************************************************************************************** */
-/**************         SCORE SORTER BY TOTAL SCORE           *************************** */
+/**************   SCORE SORTER BY TOTAL SCORE OF ALL USERS    *************************** */
 /**************************************************************************************** */
 
 //SORTED USER BY SCORE
 router.route("/finalscore").patch((req, res) => {
     var score = {total : -1}
-    User.find({},{email:1,total:1}).sort(score)
+    User.find({},{email:1,total:1,score1:1,score2:1,score3:1}).sort(score)
+    .then(user => res.send(user))
+    .catch((err) => res.status(400).json("couldnt find: " + err));
+})
+
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+
+
+/**************************************************************************************** */
+/**************   SCORE SORTER BY TOTAL SCORE TOP - 10        *************************** */
+/**************************************************************************************** */
+
+//SORTED USER BY SCORE
+router.route("/top10").patch((req, res) => {
+    var score = {total : -1}
+    User.find({},{email:1,total:1,score1:1,score2:1,score3:1}).sort(score).limit(10)
     .then(user => res.send(user))
     .catch((err) => res.status(400).json("couldnt find: " + err));
 })
@@ -580,7 +597,6 @@ router.route("/company1/:id").post((req, res) => {
         })
         .catch((err) => res.status(400).json("couldnt find: " + err));
 });
-
 //COMPANY 2
 router.route("/company2/:id").post((req, res) => {
     User.findById(req.params.id)

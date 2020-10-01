@@ -32,7 +32,7 @@ connection.once("open", () => {
 
 //API REQUEST LIMITER
 const limiter = rateLimit({
-    windowMs: 1000, // 10 secs
+    windowMs: 1000, // 1 secs
     max: 5,         // 5 requests
 })
 

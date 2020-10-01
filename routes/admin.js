@@ -83,6 +83,11 @@ router.route("/settimer/:id").post((req, res) => {
         .catch((err) => res.status(400).json("couldnt find: " + err));
 });
 
+
+
+
+
+///****  ALREADY ADDED DONT USE THE ROUTE AGAIN******** */
 router.route('/addtimer').post((req, res) => {
    
     const round1 = req.body.round1;

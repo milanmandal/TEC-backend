@@ -16,7 +16,7 @@ const timerschema = new mongoose.Schema({
     },
     round:{
         type : String,
-        default : 'round1',
+        default : '',
     }
 });
 
